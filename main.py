@@ -34,35 +34,36 @@ def convert_to_mb(size_in_bytes):
 
 def compressImage(file, verbose=False):
     picture = Image.open(file)
-    #picture = picture.convert('RGB')
+    picture = picture.convert('RGB')
+    picture.save('image.jpg')
     picture.save("image.jpg", optimize = True, quality = 90)
     return
 
 #JSON for certain group of images
-#page = 1
-url = 'https://danbooru.donmai.us/posts.json?tags=favgroup:9167 status:any&limit=10&page='
+#Only put 2 tags in the url
+url = 'https://danbooru.donmai.us/posts.json?tags=favgroup:9487 status:any&limit=10&page='
 
 
 while True:
     try:
-        #url + page number
+        #url and page number
         random.seed()
-        jsURL = url + str(random.randint(1,3))
+        jsURL = url + str(random.randint(1,7))
+
         response = requests.get(jsURL)
         pageTable = response.json()
         arrayNum = random.randint(0,9)
-        #arrayNum = 1
 
         imageSource = pageTable[arrayNum]["file_url"]
         imageURL = imageSource
         print(imageURL)
         
-        #if pixiv id is null print source link
+        #if pixiv id is null print booru link
         #else sourceURL pixiv link
         validID = str(pageTable[arrayNum]["pixiv_id"])
         
         if validID == "None":
-            sourceURL = str(pageTable[arrayNum]["source"])
+            sourceURL = "http://safebooru.donmai.us/posts/" + str(pageTable[arrayNum]["id"])
             print(sourceURL)
         else:
             danbooruURL = "http://danbooru.donmai.us/posts/" + str(pageTable[arrayNum]["id"])
@@ -92,7 +93,8 @@ while True:
         #Remove image after
         os.remove('image.jpg')
 
-        time.sleep(180)
+        #Pause script
+        time.sleep(900)
 
     except tweepy.error.TweepError:
         print("Unable to upload image...")
