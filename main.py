@@ -66,7 +66,7 @@ while True:
             sourceURL = "http://safebooru.donmai.us/posts/" + str(pageTable[arrayNum]["id"])
             print(sourceURL)
         else:
-            danbooruURL = "http://danbooru.donmai.us/posts/" + str(pageTable[arrayNum]["id"])
+            danbooruURL = "http://safebooru.donmai.us/posts/" + str(pageTable[arrayNum]["id"])
             
             sourceURL = "https://www.pixiv.net/en/artworks/" + str(pageTable[arrayNum]["pixiv_id"])
             print(danbooruURL)
